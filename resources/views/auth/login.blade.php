@@ -85,6 +85,18 @@
                 <p class="text-muted small">Aplikasi Manajemen Laundry</p>
             </div>
 
+            <div class="mb-4 p-3 bg-primary-subtle border border-primary-subtle rounded-3 text-center">
+                <div class="fw-semibold text-primary small mb-1">
+                    <i class="bi bi-cart-plus me-1"></i> Mau Pesan Cucian Cepat?
+                </div>
+                <div class="text-secondary small mb-2" style="font-size: 0.78rem;">
+                    Bisa order langsung tanpa login! Cukup isi nama dan no HP.
+                </div>
+                <a href="{{ route('transaksi.create') }}" class="btn btn-primary btn-sm w-100 fw-semibold">
+                    <i class="bi bi-lightning-fill me-1"></i> Order Cucian Tanpa Login
+                </a>
+            </div>
+
             @if(session('success'))
                 <div class="alert alert-success border-0 bg-success-subtle text-success py-2 px-3 small rounded-3 mb-3">
                     {{ session('success') }}

@@ -5,13 +5,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\TransaksiController;
+use Illuminate\Support\Facades\Auth;
 
 // Preview helper untuk tangkapan layar
 require __DIR__.'/preview.php';
 
-// Halaman utama langsung diarahkan ke dashboard jika login, atau ke login
+// Halaman utama: jika sudah login ke dashboard, jika pelanggan umum langsung ke form order
 Route::get('/', function () {
-    return redirect()->route('login');
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('transaksi.create');
 });
 
 // Autentikasi Pengguna
@@ -23,13 +27,20 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+// Modul Order Publik & Nota (Bisa Diakses Langsung Tanpa Perlu Login)
+Route::get('/order', [TransaksiController::class, 'create'])->name('order.public');
+Route::get('/transaksi/baru', [TransaksiController::class, 'create'])->name('transaksi.create');
+Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+Route::get('/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaksi.show');
+
+// Area Khusus Petugas Kasir & Admin (Wajib Login)
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Dashboard
+    // Dashboard Internal
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Modul Data Layanan (CRUD)
+    // Modul Data Layanan (CRUD Master)
     Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
     Route::get('/layanan/create', [LayananController::class, 'create'])->name('layanan.create');
     Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
@@ -37,11 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/layanan/{layanan}', [LayananController::class, 'update'])->name('layanan.update');
     Route::delete('/layanan/{layanan}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
-    // Modul Order & Rekap Transaksi
+    // Modul Rekap Transaksi & Pengawasan Status (Internal)
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
-    Route::get('/transaksi/baru', [TransaksiController::class, 'create'])->name('transaksi.create');
-    Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
-    Route::get('/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaksi.show');
     Route::patch('/transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.update-status');
     Route::patch('/transaksi/{transaksi}/pembayaran', [TransaksiController::class, 'updatePembayaran'])->name('transaksi.update-pembayaran');
     Route::delete('/transaksi/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');

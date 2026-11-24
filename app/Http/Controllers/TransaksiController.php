@@ -37,7 +37,10 @@ class TransaksiController extends Controller
     {
         $layanans = Layanan::all();
         if ($layanans->isEmpty()) {
-            return redirect()->route('layanan.index')->with('error', 'Silakan buat data layanan terlebih dahulu sebelum membuat transaksi.');
+            if (Auth::check()) {
+                return redirect()->route('layanan.index')->with('error', 'Silakan buat data layanan terlebih dahulu.');
+            }
+            return redirect()->route('login')->with('error', 'Layanan laundry belum tersedia.');
         }
 
         // Generate nomor invoice otomatis TRX-YYYYMMDD-XXXX
@@ -50,33 +53,50 @@ class TransaksiController extends Controller
 
     public function store(Request $request)
     {
+        // Jika kode invoice kosong (order publik), generate otomatis
+        if (!$request->filled('kode_invoice')) {
+            $today = date('Ymd');
+            $countToday = Transaksi::whereDate('created_at', today())->count() + 1;
+            $request->merge([
+                'kode_invoice' => 'TRX-' . $today . '-' . str_pad($countToday, 3, '0', STR_PAD_LEFT)
+            ]);
+        }
+
         $validated = $request->validate([
             'kode_invoice' => 'required|string|unique:transaksis,kode_invoice',
             'nama_pelanggan' => 'required|string|max:100',
             'no_hp' => 'required|string|max:20',
             'layanan_id' => 'required|exists:layanans,id',
-            'berat' => 'required|numeric|min:0.1',
-            'status_pembayaran' => 'required|in:Lunas,Belum Lunas',
+            'berat' => 'nullable|numeric|min:0.1',
+            'status_pembayaran' => 'nullable|in:Lunas,Belum Lunas',
             'catatan' => 'nullable|string|max:255',
         ]);
 
         $layanan = Layanan::findOrFail($validated['layanan_id']);
-        $totalHarga = (int) round($validated['berat'] * $layanan->harga_per_kg);
+        $berat = isset($validated['berat']) ? (float)$validated['berat'] : 1.0;
+        $totalHarga = (int) round($berat * $layanan->harga_per_kg);
+        
+        // Pelanggan umum default bayar saat ambil cucian (Belum Lunas)
+        $statusPembayaran = $validated['status_pembayaran'] ?? 'Belum Lunas';
 
-        Transaksi::create([
+        $transaksi = Transaksi::create([
             'kode_invoice' => $validated['kode_invoice'],
             'nama_pelanggan' => $validated['nama_pelanggan'],
             'no_hp' => $validated['no_hp'],
             'layanan_id' => $layanan->id,
-            'berat' => $validated['berat'],
+            'berat' => $berat,
             'total_harga' => $totalHarga,
             'status_pengerjaan' => 'Proses', // Default transaksi baru: Proses
-            'status_pembayaran' => $validated['status_pembayaran'],
+            'status_pembayaran' => $statusPembayaran,
             'catatan' => $validated['catatan'] ?? null,
-            'user_id' => Auth::id(),
+            'user_id' => Auth::id(), // Null jika dibuat oleh tamu/pelanggan
         ]);
 
-        return redirect()->route('transaksi.index')->with('success', 'Order transaksi baru berhasil dicatat.');
+        if (Auth::check()) {
+            return redirect()->route('transaksi.index')->with('success', 'Order transaksi baru berhasil dicatat.');
+        }
+
+        return redirect()->route('transaksi.show', $transaksi->id)->with('success', 'Pesanan cucian Anda berhasil dibuat! Simpan nomor faktur untuk bukti pengambilan.');
     }
 
     public function show(Transaksi $transaksi)

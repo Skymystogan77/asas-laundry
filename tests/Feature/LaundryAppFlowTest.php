@@ -196,4 +196,38 @@ class LaundryAppFlowTest extends TestCase
         $statusFilterRes->assertStatus(200);
         $statusFilterRes->assertSee('TRX-TEST-SEARCH');
     }
+
+    public function test_guest_can_order_cucian_without_login(): void
+    {
+        // 1. Guest akses form order tanpa login
+        $resForm = $this->get('/transaksi/baru');
+        $resForm->assertStatus(200);
+        $resForm->assertSee('Form Pemesanan Cucian');
+
+        // 2. Guest submit order hanya dengan nama dan no hp
+        $resPost = $this->post('/transaksi', [
+            'nama_pelanggan' => 'Siti Nurhaliza',
+            'no_hp' => '087712345678',
+            'layanan_id' => $this->layanan->id,
+            'berat' => 2.5,
+            'catatan' => 'Pakaian anak tolong dipisah',
+        ]);
+
+        // Berhasil redirect ke halaman nota
+        $this->assertDatabaseHas('transaksis', [
+            'nama_pelanggan' => 'Siti Nurhaliza',
+            'no_hp' => '087712345678',
+            'user_id' => null, // Guest order tidak memiliki user_id
+            'status_pembayaran' => 'Belum Lunas',
+        ]);
+
+        $trx = Transaksi::where('nama_pelanggan', 'Siti Nurhaliza')->first();
+        $resPost->assertRedirect("/transaksi/{$trx->id}");
+
+        // 3. Guest bisa melihat nota pesanannya
+        $resNota = $this->get("/transaksi/{$trx->id}");
+        $resNota->assertStatus(200);
+        $resNota->assertSee('Siti Nurhaliza');
+        $resNota->assertSee('087712345678');
+    }
 }

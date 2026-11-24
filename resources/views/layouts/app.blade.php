@@ -855,10 +855,12 @@
     <!-- Topbar Header -->
     <header class="topbar sticky-top d-flex align-items-center justify-content-between px-3 px-md-4">
         <div class="d-flex align-items-center gap-3">
+            @auth
             <button class="btn btn-sm d-md-none p-0 border-0 text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNav">
                 <i class="bi bi-list fs-3"></i>
             </button>
-            <a href="{{ route('dashboard') }}" class="brand-title">
+            @endauth
+            <a href="{{ Auth::check() ? route('dashboard') : route('transaksi.create') }}" class="brand-title">
                 <div class="brand-badge">
                     <!-- Washing machine SVG icon -->
                     <svg class="wm-icon" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -893,23 +895,31 @@
                 <span class="live-wib-clock-full">{{ now()->timezone('Asia/Jakarta')->format('H:i:s') }} WIB</span>
             </div>
 
-            <div class="text-end d-none d-sm-block">
-                <div class="fw-semibold small lh-1 mb-1">{{ Auth::user()->name }}</div>
-                <span class="badge {{ Auth::user()->role === 'admin' ? 'bg-primary-subtle text-primary border border-primary-subtle' : 'bg-success-subtle text-success border border-success-subtle' }}" style="font-size: 0.68rem; font-weight: 600;">
-                    {{ strtoupper(Auth::user()->role) }}
-                </span>
-            </div>
+            @auth
+                <div class="text-end d-none d-sm-block">
+                    <div class="fw-semibold small lh-1 mb-1">{{ Auth::user()->name }}</div>
+                    <span class="badge {{ Auth::user()->role === 'admin' ? 'bg-primary-subtle text-primary border border-primary-subtle' : 'bg-success-subtle text-success border border-success-subtle' }}" style="font-size: 0.68rem; font-weight: 600;">
+                        {{ strtoupper(Auth::user()->role) }}
+                    </span>
+                </div>
 
-            <form action="{{ route('logout') }}" method="POST" class="d-inline m-0">
-                @csrf
-                <button type="submit" class="btn btn-app-light btn-sm">
-                    <i class="bi bi-box-arrow-right me-1"></i>
-                    <span class="d-none d-sm-inline">Keluar</span>
-                </button>
-            </form>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-app-light btn-sm">
+                        <i class="bi bi-box-arrow-right me-1"></i>
+                        <span class="d-none d-sm-inline">Keluar</span>
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-app-primary btn-sm">
+                    <i class="bi bi-person-lock me-1"></i>
+                    <span>Login Petugas</span>
+                </a>
+            @endauth
         </div>
     </header>
 
+    @auth
     <!-- Mobile Nav Collapse -->
     <div class="collapse d-md-none bg-white border-bottom p-3" id="mobileNav">
         <div class="sidebar-heading">Menu Aplikasi</div>
@@ -925,9 +935,11 @@
             </a>
         </div>
     </div>
+    @endauth
 
     <!-- Main Workspace -->
-    <div class="d-flex">
+    <div class="d-flex {{ !Auth::check() ? 'justify-content-center' : '' }}">
+        @auth
         <!-- Sidebar Desktop -->
         <aside class="sidebar d-none d-md-flex flex-column">
             <div>
@@ -958,6 +970,7 @@
                 <span>Sistem aktif</span>
             </div>
         </aside>
+        @endauth
 
         <!-- Page View Body -->
         <main class="main-content">
