@@ -28,6 +28,7 @@
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             color: var(--app-text);
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         /* =============================================
@@ -270,6 +271,7 @@
            ============================================= */
         .main-content {
             flex: 1;
+            min-width: 0;
             padding: 1.5rem 2rem;
             max-width: 1300px;
             animation: fadeInPage 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -516,6 +518,306 @@
 
         @media (max-width: 768px) {
             .main-content { padding: 1rem; }
+            .wm-hero-card { padding: 1.25rem 1rem; }
+        }
+
+        /* =============================================
+           WASHING MACHINE HERO CARD & ANIMATIONS
+           ============================================= */
+        .wm-hero-card {
+            background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #2563eb 100%);
+            border-radius: 16px;
+            padding: 1.75rem 2rem;
+            color: #ffffff;
+            box-shadow: 0 10px 25px -4px rgba(29, 78, 216, 0.28), 0 4px 6px -2px rgba(29, 78, 216, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: slideUpCard 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .wm-hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .wm-pill {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: inline-flex;
+        }
+
+        .wm-live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80;
+            animation: dotGlow 1.4s ease-in-out infinite;
+        }
+
+        @keyframes dotGlow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        /* Machine Wrapper & Container */
+        .wm-machine-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: machineRumble 0.18s infinite linear alternate;
+        }
+
+        /* Subtle mechanical rumble / vibration when spinning */
+        @keyframes machineRumble {
+            0%   { transform: translate(0, 0) rotate(0deg); }
+            50%  { transform: translate(-0.5px, 0.5px) rotate(-0.1deg); }
+            100% { transform: translate(0.5px, -0.3px) rotate(0.1deg); }
+        }
+
+        .wm-machine {
+            width: 125px;
+            height: 152px;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.8), inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+            border: 2px solid #e2e8f0;
+            position: relative;
+            padding: 10px 10px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Panel Atas */
+        .wm-panel {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+
+        .wm-disp {
+            background: #0f172a;
+            border-radius: 4px;
+            padding: 2px 6px;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+        }
+
+        .wm-disp-text {
+            font-family: 'Courier New', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #38bdf8;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 4px rgba(56, 189, 248, 0.6);
+            animation: dispBlink 2s step-end infinite;
+        }
+
+        @keyframes dispBlink {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0.85; }
+        }
+
+        .wm-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .wm-led {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 5px #22c55e;
+            animation: dotGlow 1s infinite;
+        }
+
+        .wm-dial {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            border: 1.5px solid #94a3b8;
+            position: relative;
+        }
+
+        .wm-dial::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            width: 2px;
+            height: 4px;
+            background: #475569;
+            border-radius: 1px;
+        }
+
+        /* Front Door Porthole */
+        .wm-door {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+            padding: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+            position: relative;
+        }
+
+        .wm-glass {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 40%, #1e3a8a 0%, #0f172a 80%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Glass shine reflection */
+        .wm-shine {
+            position: absolute;
+            top: 6px;
+            left: 10px;
+            width: 32px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 100%);
+            transform: rotate(-30deg);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Rotating drum with clothes inside */
+        .wm-rotor {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            animation: drumFastSpin 1.4s linear infinite;
+            transform-origin: center center;
+        }
+
+        @keyframes drumFastSpin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* Clothes pieces tumbling */
+        .wm-cloth {
+            position: absolute;
+            border-radius: 4px;
+        }
+
+        .wm-cloth-blue {
+            width: 24px;
+            height: 14px;
+            background: #3b82f6;
+            top: 14px;
+            left: 26px;
+            transform: rotate(25deg);
+            box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+            border-radius: 3px;
+        }
+
+        .wm-cloth-orange {
+            width: 20px;
+            height: 12px;
+            background: #f97316;
+            bottom: 16px;
+            right: 18px;
+            transform: rotate(-40deg);
+            box-shadow: 0 0 6px rgba(249, 115, 22, 0.5);
+            border-radius: 3px;
+        }
+
+        .wm-cloth-white {
+            width: 16px;
+            height: 16px;
+            background: #f8fafc;
+            bottom: 24px;
+            left: 16px;
+            transform: rotate(60deg);
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+        }
+
+        /* Bubbles & foam */
+        .wm-foam {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .wm-foam.f1 { width: 8px; height: 8px; top: 28px; right: 22px; animation: foamFloat 1.2s ease-in-out infinite; }
+        .wm-foam.f2 { width: 6px; height: 6px; top: 40px; left: 32px; animation: foamFloat 1.4s ease-in-out 0.3s infinite; }
+        .wm-foam.f3 { width: 10px; height: 10px; bottom: 12px; left: 36px; animation: foamFloat 1s ease-in-out 0.6s infinite; }
+        .wm-foam.f4 { width: 5px; height: 5px; top: 18px; left: 18px; animation: foamFloat 1.5s ease-in-out 0.9s infinite; }
+
+        @keyframes foamFloat {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50%      { transform: scale(1.3); opacity: 0.95; }
+        }
+
+        /* Bottom base & drawer */
+        .wm-bottom {
+            width: 100%;
+            margin-top: auto;
+            position: relative;
+        }
+
+        .wm-drawer {
+            width: 32px;
+            height: 3px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        .wm-feet {
+            position: absolute;
+            bottom: -8px;
+            width: 10px;
+            height: 4px;
+            background: #475569;
+            border-radius: 0 0 2px 2px;
+        }
+        .wm-feet.f-left  { left: 12px; }
+        .wm-feet.f-right { right: 12px; }
+
+        /* Badge status di bawah mesin */
+        .wm-badge-live {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .wm-badge-spin {
+            display: inline-block;
+            animation: drumFastSpin 1.2s linear infinite;
+            font-size: 0.85rem;
+            color: #67e8f9;
         }
     </style>
 </head>

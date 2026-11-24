@@ -3,15 +3,85 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-    <div>
-        <h5 class="fw-bold mb-1">Dashboard</h5>
-        <div class="text-muted small">Pantau cucian & transaksi hari ini di sini.</div>
+
+{{-- Hero Banner dengan Animasi Mesin Cuci Interaktif --}}
+<div class="wm-hero-card mb-4">
+    <div class="row align-items-center g-3">
+        {{-- Kiri: Teks & Aksi --}}
+        <div class="col-12 col-md-7 col-lg-8 text-center text-md-start">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 wm-pill">
+                <span class="wm-live-dot"></span>
+                <span class="small fw-semibold text-white">Sistem Operasional Aktif</span>
+            </div>
+            <h4 class="fw-bold text-white mb-2">Halo, {{ Auth::user()->name }}! 👋</h4>
+            <p class="text-white text-opacity-75 mb-3" style="font-size: 0.92rem; max-width: 520px; line-height: 1.5;">
+                Saat ini ada <strong class="text-white text-decoration-underline">{{ $transaksiProses }} pesanan cucian</strong> yang lagi jalan di mesin cuci. 
+                Pantau proses cuci, timbang order baru, atau cetak nota langsung dari sini.
+            </p>
+            <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center justify-content-center justify-content-md-start gap-2">
+                <a href="{{ route('transaksi.create') }}" class="btn btn-light fw-bold text-primary px-3 py-2 shadow-sm text-center" style="font-size: 0.85rem; border-radius: 8px;">
+                    <i class="bi bi-plus-circle-fill me-1 text-primary"></i> Order Cucian Baru
+                </a>
+                <a href="{{ route('transaksi.index', ['status' => 'Proses']) }}" class="btn btn-outline-light px-3 py-2 fw-medium text-center" style="font-size: 0.85rem; border-radius: 8px; backdrop-filter: blur(4px);">
+                    <i class="bi bi-arrow-repeat me-1"></i> Cucian Diproses ({{ $transaksiProses }})
+                </a>
+            </div>
+        </div>
+
+        {{-- Kanan: Mesin Cuci Muter Keren --}}
+        <div class="col-12 col-md-5 col-lg-4 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0">
+            <div class="wm-machine-wrap">
+                <div class="wm-machine">
+                    {{-- Panel Atas Mesin --}}
+                    <div class="wm-panel">
+                        <div class="wm-disp">
+                            <span class="wm-disp-text">45:00</span>
+                        </div>
+                        <div class="wm-controls">
+                            <div class="wm-led"></div>
+                            <div class="wm-dial"></div>
+                        </div>
+                    </div>
+
+                    {{-- Pintu Drum Mesin Cuci --}}
+                    <div class="wm-door">
+                        <div class="wm-glass">
+                            {{-- Kilauan Kaca --}}
+                            <div class="wm-shine"></div>
+
+                            {{-- Drum Berputar dengan Baju --}}
+                            <div class="wm-rotor">
+                                {{-- Baju 1 (Biru) --}}
+                                <div class="wm-cloth wm-cloth-blue"></div>
+                                {{-- Baju 2 (Kuning/Orange) --}}
+                                <div class="wm-cloth wm-cloth-orange"></div>
+                                {{-- Baju 3 (Putih) --}}
+                                <div class="wm-cloth wm-cloth-white"></div>
+                                {{-- Busa & Gelembung --}}
+                                <div class="wm-foam f1"></div>
+                                <div class="wm-foam f2"></div>
+                                <div class="wm-foam f3"></div>
+                                <div class="wm-foam f4"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Garis laci sabun bawah --}}
+                    <div class="wm-bottom">
+                        <div class="wm-drawer"></div>
+                        <div class="wm-feet f-left"></div>
+                        <div class="wm-feet f-right"></div>
+                    </div>
+                </div>
+
+                {{-- Badge Status di bawah mesin --}}
+                <div class="wm-badge-live">
+                    <i class="bi bi-arrow-repeat wm-badge-spin"></i>
+                    <span>Mesin Cuci Berputar</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <a href="{{ route('transaksi.create') }}" class="btn-app-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Order Baru</span>
-    </a>
 </div>
 
 {{-- 4 Stat Boxes --}}
