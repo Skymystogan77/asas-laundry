@@ -5,55 +5,53 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
-        <h4 class="fw-bold mb-1">Rekap Transaksi Cucian</h4>
-        <p class="text-muted small mb-0">Daftar seluruh nota pesanan laundry pelanggan yang masuk, diproses, dan selesai.</p>
+        <h5 class="fw-bold mb-1">Rekap Transaksi</h5>
+        <div class="text-muted small">Catatan seluruh transaksi cucian pelanggan.</div>
     </div>
-    <a href="{{ route('transaksi.create') }}" class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+    <a href="{{ route('transaksi.create') }}" class="btn-app-primary">
         <i class="bi bi-plus-lg"></i>
-        <span>Tambah Order Baru</span>
+        <span>Order Baru</span>
     </a>
 </div>
 
-{{-- Filter dan Pencarian --}}
-<div class="card bg-white mb-4">
-    <div class="card-body p-3">
-        <form action="{{ route('transaksi.index') }}" method="GET" class="row g-2 align-items-center">
-            <div class="col-md-5">
-                <div class="input-group">
-                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" class="form-control" name="cari" value="{{ request('cari') }}" placeholder="Cari nama pelanggan, nomor nota, atau HP...">
-                </div>
+{{-- Filter Box --}}
+<div class="app-card mb-3 p-3">
+    <form action="{{ route('transaksi.index') }}" method="GET" class="row g-2 align-items-center">
+        <div class="col-md-5">
+            <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" name="cari" value="{{ request('cari') }}" placeholder="Cari nama, invoice, no hp...">
             </div>
-            <div class="col-md-4">
-                <select name="status" class="form-select">
-                    <option value="">Semua Status Pengerjaan</option>
-                    <option value="Proses" {{ request('status') === 'Proses' ? 'selected' : '' }}>Sedang Proses</option>
-                    <option value="Selesai" {{ request('status') === 'Selesai' ? 'selected' : '' }}>Selesai Dicuci</option>
-                </select>
-            </div>
-            <div class="col-md-3 d-flex gap-2">
-                <button type="submit" class="btn btn-secondary w-100">Filter Data</button>
-                @if(request()->hasAny(['cari', 'status']))
-                    <a href="{{ route('transaksi.index') }}" class="btn btn-outline-secondary" title="Reset Filter">
-                        <i class="bi bi-arrow-counterclockwise"></i>
-                    </a>
-                @endif
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="col-md-4">
+            <select name="status" class="form-select form-select-sm">
+                <option value="">Semua Status Pengerjaan</option>
+                <option value="Proses" {{ request('status') === 'Proses' ? 'selected' : '' }}>Dalam Proses</option>
+                <option value="Selesai" {{ request('status') === 'Selesai' ? 'selected' : '' }}>Selesai Cuci</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-app-primary btn-sm w-100 justify-content-center">Cari</button>
+            @if(request()->hasAny(['cari', 'status']))
+                <a href="{{ route('transaksi.index') }}" class="btn btn-app-light btn-sm" title="Reset">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                </a>
+            @endif
+        </div>
+    </form>
 </div>
 
-{{-- Tabel Data Transaksi --}}
-<div class="card bg-white">
+{{-- Tabel Data --}}
+<div class="app-card">
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light text-muted small text-uppercase">
+        <table class="table app-table mb-0 align-middle">
+            <thead>
                 <tr>
                     <th class="ps-3">Nota & Tanggal</th>
                     <th>Pelanggan</th>
-                    <th>Layanan & Berat</th>
-                    <th>Total Biaya</th>
-                    <th>Status Pengerjaan</th>
+                    <th>Paket & Berat</th>
+                    <th>Total</th>
+                    <th>Status Cucian</th>
                     <th>Pembayaran</th>
                     <th class="text-end pe-3">Aksi</th>
                 </tr>
@@ -62,19 +60,19 @@
                 @forelse($transaksis as $trx)
                     <tr>
                         <td class="ps-3">
-                            <span class="fw-semibold text-primary">{{ $trx->kode_invoice }}</span>
-                            <div class="text-muted small">{{ $trx->created_at->format('d M Y, H:i') }}</div>
+                            <span class="fw-semibold text-primary font-monospace">{{ $trx->kode_invoice }}</span>
+                            <div class="text-muted" style="font-size: 0.72rem;">{{ $trx->created_at->format('d/m/Y H:i') }}</div>
                         </td>
                         <td>
-                            <div class="fw-semibold">{{ $trx->nama_pelanggan }}</div>
-                            <div class="text-muted small"><i class="bi bi-telephone me-1"></i>{{ $trx->no_hp }}</div>
+                            <div class="fw-medium text-dark">{{ $trx->nama_pelanggan }}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">{{ $trx->no_hp }}</div>
                         </td>
                         <td>
-                            <div><span class="badge bg-light text-dark border">{{ $trx->layanan->nama_layanan ?? '-' }}</span></div>
-                            <div class="text-muted small mt-1">{{ $trx->berat }} kg &times; Rp {{ number_format($trx->layanan->harga_per_kg ?? 0, 0, ',', '.') }}</div>
+                            <span class="badge bg-light text-dark border">{{ $trx->layanan->nama_layanan ?? '-' }}</span>
+                            <div class="text-muted" style="font-size: 0.72rem;">{{ $trx->berat }} kg &times; Rp {{ number_format($trx->layanan->harga_per_kg ?? 0, 0, ',', '.') }}</div>
                         </td>
-                        <td>
-                            <span class="fw-bold">Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</span>
+                        <td class="fw-semibold text-dark">
+                            Rp {{ number_format($trx->total_harga, 0, ',', '.') }}
                         </td>
                         <td>
                             <form action="{{ route('transaksi.update-status', $trx->id) }}" method="POST" class="d-inline">
@@ -82,13 +80,13 @@
                                 @method('PATCH')
                                 @if($trx->status_pengerjaan === 'Proses')
                                     <input type="hidden" name="status_pengerjaan" value="Selesai">
-                                    <button type="submit" class="btn btn-sm badge badge-proses border-0 py-2 px-2" title="Klik untuk ubah menjadi Selesai" onclick="return confirm('Tandai cucian ini sudah SELESAI?')">
-                                        <i class="bi bi-hourglass-split me-1"></i> Proses &rarr; Klik Selesai
+                                    <button type="submit" class="btn p-0 border-0 status-chip chip-proses" title="Klik untuk selesaikan" onclick="return confirm('Ubah status jadi SELESAI?')">
+                                        Proses &rarr; Selesaikan
                                     </button>
                                 @else
                                     <input type="hidden" name="status_pengerjaan" value="Proses">
-                                    <button type="submit" class="btn btn-sm badge badge-selesai border-0 py-2 px-2" title="Klik jika ingin kembalikan ke Proses">
-                                        <i class="bi bi-check-circle-fill me-1"></i> Selesai
+                                    <button type="submit" class="btn p-0 border-0 status-chip chip-selesai" title="Klik untuk kembalikan">
+                                        <i class="bi bi-check2"></i> Selesai
                                     </button>
                                 @endif
                             </form>
@@ -99,12 +97,12 @@
                                 @method('PATCH')
                                 @if($trx->status_pembayaran === 'Lunas')
                                     <input type="hidden" name="status_pembayaran" value="Belum Lunas">
-                                    <button type="submit" class="btn btn-sm badge badge-lunas border-0 py-2 px-2" title="Klik untuk ubah status pembayaran">
+                                    <button type="submit" class="btn p-0 border-0 status-chip chip-lunas">
                                         Lunas
                                     </button>
                                 @else
                                     <input type="hidden" name="status_pembayaran" value="Lunas">
-                                    <button type="submit" class="btn btn-sm badge badge-belum border-0 py-2 px-2" title="Klik untuk menandai Lunas">
+                                    <button type="submit" class="btn p-0 border-0 status-chip chip-belum">
                                         Belum Lunas &rarr; Lunasi
                                     </button>
                                 @endif
@@ -112,14 +110,14 @@
                         </td>
                         <td class="text-end pe-3">
                             <div class="btn-group">
-                                <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-sm btn-outline-secondary">
+                                <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-app-light btn-sm py-1 px-2" style="font-size: 0.78rem;">
                                     Nota
                                 </a>
                                 @if(Auth::user()->role === 'admin')
-                                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" onsubmit="return confirm('Hapus nota transaksi ini secara permanen?')">
+                                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" onsubmit="return confirm('Hapus transaksi ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm py-1 px-2" style="font-size: 0.78rem;">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
@@ -129,9 +127,8 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center py-5 text-muted">
-                            <i class="bi bi-journal-x fs-2 d-block mb-2"></i>
-                            Tidak ada data transaksi yang ditemukan.
+                        <td colspan="7" class="text-center py-4 text-muted small">
+                            Tidak ada data transaksi.
                         </td>
                     </tr>
                 @endforelse
@@ -140,7 +137,7 @@
     </div>
 
     @if($transaksis->hasPages())
-        <div class="card-footer bg-white border-top py-3">
+        <div class="p-3 border-top">
             {{ $transaksis->links() }}
         </div>
     @endif
