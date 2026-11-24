@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: asas-laundry
+    runtime: docker
+    plan: free
+    region: singapore
+    envVars:
+      - key: APP_NAME
+        value: LaundryKu
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: base64:h/H6eAHfbUCls4XZMiCuGNFj1qxv4euEpEFjZ+EZT98=
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync

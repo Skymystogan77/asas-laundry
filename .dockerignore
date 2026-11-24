@@ -1,0 +1,10 @@
+.git
+.github
+.vscode
+.idea
+vendor
+node_modules
+*.log
+.phpunit.result.cache
+dokumen_laporan
+screenshots
