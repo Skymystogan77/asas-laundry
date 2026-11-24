@@ -7,7 +7,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -23,13 +23,20 @@
             --app-muted: #64748b;
         }
 
+        *, *::before, *::after {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
         html, body {
             background-color: var(--app-bg);
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             color: var(--app-text);
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
             max-width: 100%;
+        }
+
+        code, pre, .font-monospace, .invoice-chip {
+            font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace !important;
         }
 
         /* =============================================
@@ -310,17 +317,19 @@
         .stat-box {
             background: var(--app-surface);
             border: 1px solid var(--app-border);
-            border-radius: 8px;
-            padding: 1rem 1.15rem;
-            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
-            /* cascade animation diset inline per card */
+            border-radius: 16px;
+            padding: 1.25rem 1.25rem;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
             opacity: 0;
             animation: slideUpCard 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .stat-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px -4px rgba(15, 23, 42, 0.1);
-            border-color: #93c5fd;
+            transform: translateY(-4px);
+            box-shadow: 0 14px 28px -6px rgba(15, 23, 42, 0.08);
+            border-color: #cbd5e1;
         }
         .stat-box:nth-child(1) { animation-delay: 0.05s; }
         .stat-box:nth-child(2) { animation-delay: 0.12s; }
@@ -334,27 +343,36 @@
 
         .stat-label {
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--app-muted);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
         .stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.55rem;
+            font-weight: 800;
             color: var(--app-text);
             line-height: 1.2;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
         }
-        /* Animated stat icon */
-        .stat-icon {
-            width: 38px; height: 38px;
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-            transition: transform 0.3s;
+        /* Modern Squircle Stat Icon */
+        .stat-icon-sq {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #ffffff;
+            box-shadow: 0 6px 14px -3px rgba(0, 0, 0, 0.16);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
         }
-        .stat-box:hover .stat-icon {
-            animation: iconWobble 0.5s ease;
+        .stat-box:hover .stat-icon-sq {
+            transform: scale(1.1) rotate(4deg);
         }
         @keyframes iconWobble {
             0%,100% { transform: rotate(0deg) scale(1); }
@@ -526,44 +544,37 @@
         }
 
         /* =============================================
-           WASHING MACHINE HERO CARD & ANIMATIONS
+           WASHING MACHINE HERO CARD & MODERN SHOWCASE
            ============================================= */
         .wm-hero-card {
-            background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #2563eb 100%);
-            border-radius: 16px;
-            padding: 1.75rem 2rem;
+            background: radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.18) 0%, transparent 45%),
+                        radial-gradient(circle at 10% 80%, rgba(99, 102, 241, 0.22) 0%, transparent 45%),
+                        linear-gradient(135deg, #090e1a 0%, #0f1d40 45%, #1e3a8a 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 2rem 2.25rem;
             color: #ffffff;
-            box-shadow: 0 10px 25px -4px rgba(29, 78, 216, 0.28), 0 4px 6px -2px rgba(29, 78, 216, 0.1);
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
             animation: slideUpCard 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
-        .wm-hero-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
         .wm-pill {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             display: inline-flex;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .wm-live-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #4ade80;
-            box-shadow: 0 0 8px #4ade80;
+            background: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
             animation: dotGlow 1.4s ease-in-out infinite;
         }
 
@@ -572,29 +583,47 @@
             50%      { opacity: 0.4; transform: scale(0.85); }
         }
 
-        /* Machine Wrapper & Container */
+        /* Frosted Glass Machine Showcase Bay */
+        .wm-machine-bay {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 22px;
+            padding: 1.15rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+            transition: transform 0.3s ease;
+        }
+        .wm-machine-bay:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Machine Wrapper with gentle rumble */
         .wm-machine-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
             animation: machineRumble 0.18s infinite linear alternate;
         }
 
-        /* Subtle mechanical rumble / vibration when spinning */
         @keyframes machineRumble {
             0%   { transform: translate(0, 0) rotate(0deg); }
-            50%  { transform: translate(-0.5px, 0.5px) rotate(-0.1deg); }
-            100% { transform: translate(0.5px, -0.3px) rotate(0.1deg); }
+            50%  { transform: translate(-0.4px, 0.4px) rotate(-0.1deg); }
+            100% { transform: translate(0.4px, -0.2px) rotate(0.1deg); }
         }
 
+        /* Machine Body: Brushed Metallic Silver-Slate */
         .wm-machine {
-            width: 125px;
-            height: 152px;
-            background: #ffffff;
-            border-radius: 18px;
-            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.8), inset 0 -3px 6px rgba(0, 0, 0, 0.08);
-            border: 2px solid #e2e8f0;
+            width: 136px;
+            height: 164px;
+            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 60%, #e2e8f0 100%);
+            border-radius: 20px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+            border: 2px solid #cbd5e1;
             position: relative;
             padding: 10px 10px 8px;
             display: flex;
@@ -602,7 +631,7 @@
             align-items: center;
         }
 
-        /* Panel Atas */
+        /* Panel Atas Mesin */
         .wm-panel {
             width: 100%;
             display: flex;
@@ -613,36 +642,30 @@
         }
 
         .wm-disp {
-            background: #0f172a;
-            border-radius: 4px;
-            padding: 2px 6px;
-            border: 1px solid #334155;
+            background: #090d16;
+            border-radius: 5px;
+            padding: 2px 7px;
+            border: 1px solid #1e293b;
             display: flex;
             align-items: center;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
         }
 
         .wm-disp-text {
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
             font-size: 0.68rem;
             font-weight: 700;
             color: #38bdf8;
             letter-spacing: 0.05em;
-            text-shadow: 0 0 4px rgba(56, 189, 248, 0.6);
-            animation: dispBlink 2s step-end infinite;
+            text-shadow: 0 0 6px rgba(56, 189, 248, 0.7);
         }
 
         .wm-disp-wib {
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
             font-size: 0.52rem;
             color: #38bdf8;
-            margin-left: 2px;
+            margin-left: 3px;
             font-weight: 700;
-            letter-spacing: 0.02em;
-        }
-
-        @keyframes dispBlink {
-            0%, 100% { opacity: 1; }
-            50%      { opacity: 0.85; }
         }
 
         .wm-controls {
@@ -656,38 +679,48 @@
             height: 6px;
             border-radius: 50%;
             background: #22c55e;
-            box-shadow: 0 0 5px #22c55e;
+            box-shadow: 0 0 6px #22c55e;
             animation: dotGlow 1s infinite;
         }
 
-        .wm-dial {
-            width: 14px;
-            height: 14px;
+        .wm-led-spin {
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: #cbd5e1;
-            border: 1.5px solid #94a3b8;
+            background: #f59e0b;
+            box-shadow: 0 0 6px #f59e0b;
+            animation: dotGlow 0.6s infinite alternate;
+        }
+
+        .wm-dial {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+            border: 1.5px solid #64748b;
             position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
         .wm-dial::after {
             content: '';
             position: absolute;
             top: 2px;
-            left: 5px;
+            left: 5.5px;
             width: 2px;
             height: 4px;
-            background: #475569;
+            background: #1e293b;
             border-radius: 1px;
         }
 
         /* Front Door Porthole */
         .wm-door {
-            width: 86px;
-            height: 86px;
+            width: 94px;
+            height: 94px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
-            padding: 5px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+            background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 45%, #64748b 100%);
+            padding: 6px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25), inset 0 2px 4px #ffffff;
             position: relative;
         }
 
@@ -695,10 +728,10 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle at 40% 40%, #1e3a8a 0%, #0f172a 80%);
+            background: radial-gradient(circle at 45% 45%, #0284c7 0%, #0369a1 40%, #075985 75%, #082f49 100%);
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.7);
         }
 
         /* Glass shine reflection */
@@ -706,10 +739,10 @@
             position: absolute;
             top: 6px;
             left: 10px;
-            width: 32px;
-            height: 18px;
+            width: 36px;
+            height: 20px;
             border-radius: 50%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 100%);
             transform: rotate(-30deg);
             pointer-events: none;
             z-index: 5;
@@ -738,11 +771,11 @@
         .wm-cloth-blue {
             width: 24px;
             height: 14px;
-            background: #3b82f6;
+            background: #2563eb;
             top: 14px;
-            left: 26px;
+            left: 28px;
             transform: rotate(25deg);
-            box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
             border-radius: 3px;
         }
 
@@ -751,9 +784,9 @@
             height: 12px;
             background: #f97316;
             bottom: 16px;
-            right: 18px;
+            right: 20px;
             transform: rotate(-40deg);
-            box-shadow: 0 0 6px rgba(249, 115, 22, 0.5);
+            box-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
             border-radius: 3px;
         }
 
@@ -762,26 +795,39 @@
             height: 16px;
             background: #f8fafc;
             bottom: 24px;
-            left: 16px;
+            left: 18px;
             transform: rotate(60deg);
-            box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
             border-radius: 50%;
+        }
+
+        .wm-cloth-green {
+            width: 14px;
+            height: 14px;
+            background: #10b981;
+            top: 38px;
+            right: 14px;
+            transform: rotate(15deg);
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+            border-radius: 3px;
         }
 
         /* Bubbles & foam */
         .wm-foam {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
         }
-        .wm-foam.f1 { width: 8px; height: 8px; top: 28px; right: 22px; animation: foamFloat 1.2s ease-in-out infinite; }
-        .wm-foam.f2 { width: 6px; height: 6px; top: 40px; left: 32px; animation: foamFloat 1.4s ease-in-out 0.3s infinite; }
-        .wm-foam.f3 { width: 10px; height: 10px; bottom: 12px; left: 36px; animation: foamFloat 1s ease-in-out 0.6s infinite; }
-        .wm-foam.f4 { width: 5px; height: 5px; top: 18px; left: 18px; animation: foamFloat 1.5s ease-in-out 0.9s infinite; }
+        .wm-foam.f1 { width: 9px; height: 9px; top: 28px; right: 24px; animation: foamFloat 1.2s ease-in-out infinite; }
+        .wm-foam.f2 { width: 7px; height: 7px; top: 42px; left: 34px; animation: foamFloat 1.4s ease-in-out 0.3s infinite; }
+        .wm-foam.f3 { width: 11px; height: 11px; bottom: 14px; left: 38px; animation: foamFloat 1s ease-in-out 0.6s infinite; }
+        .wm-foam.f4 { width: 6px; height: 6px; top: 18px; left: 20px; animation: foamFloat 1.5s ease-in-out 0.9s infinite; }
+        .wm-foam.f5 { width: 8px; height: 8px; bottom: 32px; right: 16px; animation: foamFloat 1.1s ease-in-out 0.4s infinite; }
 
         @keyframes foamFloat {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50%      { transform: scale(1.3); opacity: 0.95; }
+            0%, 100% { transform: scale(1); opacity: 0.75; }
+            50%      { transform: scale(1.35); opacity: 1; }
         }
 
         /* Bottom base & drawer */
@@ -792,9 +838,9 @@
         }
 
         .wm-drawer {
-            width: 32px;
+            width: 34px;
             height: 3px;
-            background: #e2e8f0;
+            background: #cbd5e1;
             border-radius: 2px;
             margin: 0 auto;
         }
@@ -804,33 +850,68 @@
             bottom: -8px;
             width: 10px;
             height: 4px;
-            background: #475569;
+            background: #334155;
             border-radius: 0 0 2px 2px;
         }
-        .wm-feet.f-left  { left: 12px; }
-        .wm-feet.f-right { right: 12px; }
+        .wm-feet.f-left  { left: 14px; }
+        .wm-feet.f-right { right: 14px; }
 
         /* Badge status di bawah mesin */
         .wm-badge-live {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 3px 10px;
-            font-size: 0.72rem;
+            background: rgba(14, 165, 233, 0.18);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 999px;
+            padding: 5px 14px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: #ffffff;
+            color: #e0f2fe;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
         }
 
         .wm-badge-spin {
             display: inline-block;
             animation: drumFastSpin 1.2s linear infinite;
             font-size: 0.85rem;
-            color: #67e8f9;
+            color: #38bdf8;
+        }
+
+        /* Avatar Circle */
+        .avatar-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Invoice Chip */
+        .invoice-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: #1e40af;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+        .invoice-chip:hover {
+            background: #e0e7ff;
+            color: #1d4ed8;
+            border-color: #c7d2fe;
         }
     </style>
 </head>
@@ -894,17 +975,22 @@
 
         <div class="d-flex align-items-center gap-3">
             {{-- Jam Digital Real-time WIB --}}
-            <div class="d-none d-md-flex align-items-center gap-2 px-2 py-1 rounded bg-light border text-secondary shadow-sm" style="font-size: 0.78rem; font-family: 'Courier New', monospace; font-weight: 700;">
+            <div class="d-none d-md-flex align-items-center gap-2 px-2 py-1 rounded bg-light border text-secondary shadow-sm" style="font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
                 <i class="bi bi-clock-fill text-primary"></i>
                 <span class="live-wib-clock-full">{{ now()->timezone('Asia/Jakarta')->format('H:i:s') }} WIB</span>
             </div>
 
             @auth
-                <div class="text-end d-none d-sm-block">
-                    <div class="fw-semibold small lh-1 mb-1">{{ Auth::user()->name }}</div>
-                    <span class="badge {{ Auth::user()->role === 'admin' ? 'bg-primary-subtle text-primary border border-primary-subtle' : 'bg-success-subtle text-success border border-success-subtle' }}" style="font-size: 0.68rem; font-weight: 600;">
-                        {{ strtoupper(Auth::user()->role) }}
-                    </span>
+                <div class="d-none d-sm-flex align-items-center gap-2">
+                    <div class="avatar-circle" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: #ffffff; width: 34px; height: 34px; font-size: 0.75rem; box-shadow: 0 2px 6px rgba(30, 64, 175, 0.3);">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                    </div>
+                    <div class="text-start">
+                        <div class="fw-semibold small lh-1 mb-1">{{ Auth::user()->name }}</div>
+                        <span class="badge {{ Auth::user()->role === 'admin' ? 'bg-primary-subtle text-primary border border-primary-subtle' : 'bg-success-subtle text-success border border-success-subtle' }}" style="font-size: 0.68rem; font-weight: 600;">
+                            {{ strtoupper(Auth::user()->role) }}
+                        </span>
+                    </div>
                 </div>
 
                 <form action="{{ route('logout') }}" method="POST" class="d-inline m-0">
@@ -948,23 +1034,23 @@
         <!-- Sidebar Desktop -->
         <aside class="sidebar d-none d-md-flex flex-column">
             <div>
-                <div class="sidebar-heading">Menu</div>
+                <div class="sidebar-heading">Menu Utama</div>
                 <div class="sidebar-menu">
                     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="bi bi-grid-1x2"></i> Dashboard
+                        <i class="bi bi-grid-1x2-fill"></i> Dashboard
                     </a>
                     <a href="{{ route('layanan.index') }}" class="{{ request()->routeIs('layanan.*') ? 'active' : '' }}">
-                        <i class="bi bi-tag"></i> Data Layanan
+                        <i class="bi bi-tag-fill"></i> Data Layanan
                     </a>
                     <a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.*') ? 'active' : '' }}">
-                        <i class="bi bi-receipt"></i> Rekap Transaksi
+                        <i class="bi bi-receipt-cutoff"></i> Rekap Transaksi
                     </a>
                 </div>
 
-                <div class="sidebar-heading mt-4">Pintasan</div>
+                <div class="sidebar-heading mt-4">Pintasan Cepat</div>
                 <div class="sidebar-menu">
-                    <a href="{{ route('transaksi.create') }}" style="color: var(--app-primary);">
-                        <i class="bi bi-plus-circle"></i> Order Cucian Baru
+                    <a href="{{ route('transaksi.create') }}" style="color: var(--app-primary); font-weight: 600;">
+                        <i class="bi bi-plus-circle-fill"></i> Order Cucian Baru
                     </a>
                 </div>
             </div>
@@ -972,7 +1058,7 @@
             <!-- Mini spin indicator di bawah sidebar -->
             <div class="spin-indicator mt-auto pb-2">
                 <div class="spin-ring-sm"></div>
-                <span>Sistem aktif</span>
+                <span class="small fw-medium text-muted">Sistem Siap Operasi</span>
             </div>
         </aside>
         @endauth
