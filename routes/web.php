@@ -10,13 +10,8 @@ use Illuminate\Support\Facades\Auth;
 // Preview helper untuk tangkapan layar
 require __DIR__.'/preview.php';
 
-// Halaman utama: jika sudah login ke dashboard, jika pelanggan umum langsung ke form order
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('transaksi.create');
-});
+// Halaman utama: Langsung tampilkan form order cuci (Customer tidak perlu login)
+Route::get('/', [TransaksiController::class, 'create'])->name('home');
 
 // Autentikasi Pengguna
 Route::middleware('guest')->group(function () {

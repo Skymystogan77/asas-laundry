@@ -3,10 +3,11 @@
 @section('title', 'Order Cucian Baru')
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        {{-- Card Header --}}
-        <div class="app-card mb-4">
+<div class="container-fluid p-0">
+    <div class="row justify-content-center g-0">
+        <div class="col-12 col-lg-9">
+            {{-- Card Header --}}
+            <div class="app-card mb-4">
             <div class="app-card-header bg-light">
                 <div class="d-flex align-items-center gap-2">
                     <div class="brand-badge" style="width:28px;height:28px;font-size:0.9rem;">
@@ -30,7 +31,7 @@
                 @endguest
             </div>
 
-            <div class="app-card-body p-4">
+            <div class="app-card-body p-3 p-md-4">
                 <form action="{{ route('transaksi.store') }}" method="POST">
                     @csrf
 
@@ -110,9 +111,9 @@
                             @else
                                 <label class="form-label fw-semibold small text-muted">Metode Pembayaran</label>
                                 <input type="hidden" name="status_pembayaran" value="Belum Lunas">
-                                <div class="form-control bg-light text-muted small d-flex align-items-center gap-2">
-                                    <i class="bi bi-wallet2 text-primary"></i>
-                                    <span>Bayar Tunai / Transfer saat cucian selesai diambil</span>
+                                <div class="p-2 bg-light rounded border text-muted small d-flex align-items-center gap-2" style="font-size: 0.8rem;">
+                                    <i class="bi bi-wallet2 text-primary flex-shrink-0"></i>
+                                    <span>Bayar tunai / transfer saat cucian selesai</span>
                                 </div>
                             @endauth
                         </div>
@@ -157,6 +158,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

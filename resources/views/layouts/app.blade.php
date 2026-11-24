@@ -23,12 +23,13 @@
             --app-muted: #64748b;
         }
 
-        body {
+        html, body {
             background-color: var(--app-bg);
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             color: var(--app-text);
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            max-width: 100%;
         }
 
         /* =============================================
@@ -272,6 +273,7 @@
         .main-content {
             flex: 1;
             min-width: 0;
+            overflow-x: hidden;
             padding: 1.5rem 2rem;
             max-width: 1300px;
             animation: fadeInPage 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -300,6 +302,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
         }
         .app-card-body { padding: 1.25rem; }
 
@@ -517,7 +521,7 @@
         }
 
         @media (max-width: 768px) {
-            .main-content { padding: 1rem; }
+            .main-content { padding: 0.75rem; }
             .wm-hero-card { padding: 1.25rem 1rem; }
         }
 
@@ -911,9 +915,10 @@
                     </button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="btn btn-app-primary btn-sm">
-                    <i class="bi bi-person-lock me-1"></i>
-                    <span>Login Petugas</span>
+                <a href="{{ route('login') }}" class="btn btn-app-primary btn-sm px-3 shadow-sm fw-semibold" style="border-radius: 8px;">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                    <span class="d-none d-sm-inline">Login Petugas</span>
+                    <span class="d-sm-none">Login</span>
                 </a>
             @endauth
         </div>
