@@ -23,11 +23,22 @@
         }
         .card-auth {
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
+            border-radius: 14px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
             width: 100%;
             max-width: 460px;
             background: #ffffff;
+            animation: cardAppear 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
         .brand-icon-big {
             width: 48px;

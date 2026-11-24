@@ -99,18 +99,34 @@
             color: var(--app-primary);
         }
 
-        /* Main Content */
+        /* Main Content with Smooth Page Animation */
         .main-content {
             flex: 1;
             padding: 1.5rem 2rem;
             max-width: 1300px;
+            animation: fadeInPage 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Cards & Tables */
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards & Interactive Animations */
         .app-card {
             background: var(--app-surface);
             border: 1px solid var(--app-border);
             border-radius: 10px;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .app-card:hover {
+            border-color: #cbd5e1;
         }
         .app-card-header {
             padding: 0.9rem 1.25rem;
@@ -125,12 +141,18 @@
             padding: 1.25rem;
         }
 
-        /* Stat Card */
+        /* Interactive Stat Cards */
         .stat-box {
             background: var(--app-surface);
             border: 1px solid var(--app-border);
             border-radius: 8px;
             padding: 1rem 1.15rem;
+            transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease;
+        }
+        .stat-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+            border-color: #cbd5e1;
         }
         .stat-label {
             font-size: 0.8rem;
@@ -146,7 +168,7 @@
             margin-bottom: 2px;
         }
 
-        /* Clean Table */
+        /* Clean Table with Subtle Row Hover */
         .app-table thead th {
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -157,6 +179,12 @@
             padding: 0.75rem 1rem;
             letter-spacing: 0.02em;
         }
+        .app-table tbody tr {
+            transition: background-color 0.12s ease;
+        }
+        .app-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
         .app-table tbody td {
             padding: 0.8rem 1rem;
             font-size: 0.875rem;
@@ -164,7 +192,7 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        /* Status Badges */
+        /* Status Badges with Subtle Click Pulse */
         .status-chip {
             display: inline-flex;
             align-items: center;
@@ -173,22 +201,31 @@
             border-radius: 4px;
             font-size: 0.75rem;
             font-weight: 600;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+        }
+        button.status-chip:hover {
+            opacity: 0.88;
+            transform: scale(0.98);
+        }
+        button.status-chip:active {
+            transform: scale(0.94);
         }
         .chip-proses { background: #fef3c7; color: #92400e; }
         .chip-selesai { background: #dcfce7; color: #166534; }
         .chip-lunas { background: #e0e7ff; color: #3730a3; }
         .chip-belum { background: #fee2e2; color: #991b1b; }
 
-        /* Form elements */
+        /* Form elements with Focus Animation */
         .form-control, .form-select {
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             font-size: 0.875rem;
             padding: 0.5rem 0.75rem;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
         .form-control:focus, .form-select:focus {
             border-color: var(--app-primary);
-            box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.15);
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
         }
         .form-label {
             font-size: 0.82rem;
@@ -197,7 +234,7 @@
             margin-bottom: 4px;
         }
 
-        /* Clean buttons */
+        /* Clean buttons with Smooth Tactile Response */
         .btn-app-primary {
             background: var(--app-primary);
             color: #ffffff;
@@ -209,15 +246,32 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            transition: background-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
         }
         .btn-app-primary:hover {
             background: var(--app-primary-hover);
             color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(29, 78, 216, 0.2);
+        }
+        .btn-app-primary:active {
+            transform: translateY(0);
         }
         .btn-app-light {
             background: #ffffff;
             color: #334155;
             border: 1px solid var(--app-border);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.45rem 0.85rem;
+            transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        }
+        .btn-app-light:hover {
+            background: #f8fafc;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
             border-radius: 6px;
             font-size: 0.875rem;
             font-weight: 500;
