@@ -11,7 +11,7 @@
         <div class="col-12 col-md-7 col-lg-8 text-center text-md-start">
             <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 wm-pill">
                 <span class="wm-live-dot"></span>
-                <span class="small fw-semibold text-white">Sistem Operasional Aktif</span>
+                <span class="small fw-semibold text-white">Sistem Operasional Aktif • <span class="live-wib-clock">{{ now()->timezone('Asia/Jakarta')->format('H:i') }} WIB</span></span>
             </div>
             <h4 class="fw-bold text-white mb-2">Halo, {{ Auth::user()->name }}! 👋</h4>
             <p class="text-white text-opacity-75 mb-3" style="font-size: 0.92rem; max-width: 520px; line-height: 1.5;">
@@ -34,8 +34,9 @@
                 <div class="wm-machine">
                     {{-- Panel Atas Mesin --}}
                     <div class="wm-panel">
-                        <div class="wm-disp">
-                            <span class="wm-disp-text">45:00</span>
+                        <div class="wm-disp" title="Waktu Indonesia Barat (WIB)">
+                            <span class="wm-disp-text" id="wmDispTime">{{ now()->timezone('Asia/Jakarta')->format('H:i') }}</span>
+                            <span class="wm-disp-wib">WIB</span>
                         </div>
                         <div class="wm-controls">
                             <div class="wm-led"></div>

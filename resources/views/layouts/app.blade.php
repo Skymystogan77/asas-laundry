@@ -627,6 +627,15 @@
             animation: dispBlink 2s step-end infinite;
         }
 
+        .wm-disp-wib {
+            font-family: 'Courier New', monospace;
+            font-size: 0.52rem;
+            color: #38bdf8;
+            margin-left: 2px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
         @keyframes dispBlink {
             0%, 100% { opacity: 1; }
             50%      { opacity: 0.85; }
@@ -878,6 +887,12 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
+            {{-- Jam Digital Real-time WIB --}}
+            <div class="d-none d-md-flex align-items-center gap-2 px-2 py-1 rounded bg-light border text-secondary shadow-sm" style="font-size: 0.78rem; font-family: 'Courier New', monospace; font-weight: 700;">
+                <i class="bi bi-clock-fill text-primary"></i>
+                <span class="live-wib-clock-full">{{ now()->timezone('Asia/Jakarta')->format('H:i:s') }} WIB</span>
+            </div>
+
             <div class="text-end d-none d-sm-block">
                 <div class="fw-semibold small lh-1 mb-1">{{ Auth::user()->name }}</div>
                 <span class="badge {{ Auth::user()->role === 'admin' ? 'bg-primary-subtle text-primary border border-primary-subtle' : 'bg-success-subtle text-success border border-success-subtle' }}" style="font-size: 0.68rem; font-weight: 600;">
@@ -995,6 +1010,23 @@
                 overlay.classList.remove('slide-out');
             }
         });
+
+        // === Jam Digital Real-time WIB (Asia/Jakarta) ===
+        function updateWibClock() {
+            try {
+                const now = new Date();
+                const optionsTime = { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                const timeFull = new Intl.DateTimeFormat('id-ID', optionsTime).format(now).replace(/\./g, ':');
+                const timeShort = timeFull.substring(0, 5);
+
+                document.querySelectorAll('.live-wib-clock-full').forEach(el => el.textContent = timeFull + ' WIB');
+                document.querySelectorAll('.live-wib-clock').forEach(el => el.textContent = timeShort + ' WIB');
+                const wmDisp = document.getElementById('wmDispTime');
+                if (wmDisp) wmDisp.textContent = timeShort;
+            } catch(e) {}
+        }
+        setInterval(updateWibClock, 1000);
+        updateWibClock();
     </script>
 
     @stack('scripts')
