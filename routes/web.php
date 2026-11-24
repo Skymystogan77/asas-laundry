@@ -6,6 +6,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\TransaksiController;
 
+// Preview helper untuk tangkapan layar
+require __DIR__.'/preview.php';
+
 // Halaman utama langsung diarahkan ke dashboard jika login, atau ke login
 Route::get('/', function () {
     return redirect()->route('login');
