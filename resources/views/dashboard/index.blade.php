@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
         <h5 class="fw-bold mb-1">Dashboard</h5>
-        <div class="text-muted small">Ringkasan aktivitas operasional laundry hari ini.</div>
+        <div class="text-muted small">Pantau cucian & transaksi hari ini di sini.</div>
     </div>
     <a href="{{ route('transaksi.create') }}" class="btn-app-primary">
         <i class="bi bi-plus-lg"></i>
@@ -20,7 +20,9 @@
         <div class="stat-box">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="stat-label">Total Layanan</span>
-                <i class="bi bi-tags text-primary"></i>
+                <div class="stat-icon" style="background:#eff6ff;">
+                    <i class="bi bi-tags text-primary"></i>
+                </div>
             </div>
             <div class="stat-value">{{ $totalLayanan }}</div>
             <a href="{{ route('layanan.index') }}" class="small text-decoration-none text-muted">Paket tersedia &rarr;</a>
@@ -31,7 +33,9 @@
         <div class="stat-box">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="stat-label">Dalam Proses</span>
-                <i class="bi bi-hourglass-split text-warning"></i>
+                <div class="stat-icon" style="background:#fffbeb;">
+                    <i class="bi bi-arrow-repeat text-warning" style="animation: drumSpin 1.8s linear infinite; display:inline-block;"></i>
+                </div>
             </div>
             <div class="stat-value text-warning">{{ $transaksiProses }}</div>
             <a href="{{ route('transaksi.index', ['status' => 'Proses']) }}" class="small text-decoration-none text-muted">Cucian aktif &rarr;</a>
@@ -42,7 +46,9 @@
         <div class="stat-box">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="stat-label">Selesai Cuci</span>
-                <i class="bi bi-check-circle text-success"></i>
+                <div class="stat-icon" style="background:#f0fdf4;">
+                    <i class="bi bi-check-circle text-success"></i>
+                </div>
             </div>
             <div class="stat-value text-success">{{ $transaksiSelesai }}</div>
             <a href="{{ route('transaksi.index', ['status' => 'Selesai']) }}" class="small text-decoration-none text-muted">Siap ambil &rarr;</a>
@@ -53,7 +59,9 @@
         <div class="stat-box">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="stat-label">Pendapatan Lunas</span>
-                <i class="bi bi-wallet2 text-primary"></i>
+                <div class="stat-icon" style="background:#eff6ff;">
+                    <i class="bi bi-wallet2 text-primary"></i>
+                </div>
             </div>
             <div class="stat-value text-primary fs-5 mt-1 mb-1">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</div>
             <span class="small text-muted">{{ $totalTransaksi }} nota pesanan</span>
@@ -101,9 +109,15 @@
                         <td class="fw-semibold text-dark">Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</td>
                         <td>
                             @if($trx->status_pengerjaan === 'Proses')
-                                <span class="status-chip chip-proses">Proses</span>
+                                <span class="status-chip chip-proses">
+                                    <i class="bi bi-arrow-repeat" style="animation: drumSpin 1.5s linear infinite; display:inline-block;"></i>
+                                    Proses
+                                </span>
                             @else
-                                <span class="status-chip chip-selesai">Selesai</span>
+                                <span class="status-chip chip-selesai">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Selesai
+                                </span>
                             @endif
                         </td>
                         <td>
